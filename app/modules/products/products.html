@@ -1,1 +1,175 @@
 
+<div class="row">
+  <div class="col-lg-12"><uib-alert ng-repeat="alert in dvm.alerts" type="{{alert.type}}" close="dvm.closeAlert($index)">{{alert.msg}}</uib-alert></div>
+</div>
+<div class="row">
+  <div class="col-lg-4 player-stat">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">
+          Player stats
+        </h3>
+      </div>
+      <div class="panel-body">
+          <div class="row">
+              <div class="col-lg-2">
+                  Name
+              </div>
+              <div class="col-lg-12">
+                  <br>{{dvm.playerName}}
+              </div>
+          </div>
+          <hr>
+          <div class="row">
+              <div class="col-lg-2">
+                  Details
+              </div>
+              <div class="col-lg-10">
+                  {{dvm.playerInfo}}
+              </div>
+          </div>
+          <hr>
+          <div class="row">
+              <div class="col-lg-2">
+                  Coins
+              </div>
+              <div class="col-lg-10">
+                  {{dvm.playerCoins}}
+              </div>
+          </div>
+          <hr>
+          <div class="row">
+              <div class="col-lg-2">
+                  Breads: 30
+              </div>
+          </div>
+          <hr>
+          <div class="row">
+              <div class="col-lg-10">
+                  Carrots: 18
+              </div>
+          </div>
+          <hr>
+          <div class="row">
+              <div class="col-lg-10">
+                  Diamonds: 1
+              </div>
+          </div>
+      </div>
+      <div class="panel-footer">
+        Current Player
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-4 Inventory">
+    <uib-accordion close-others="false">
+      <uib-accordion-group is-open="true">
+          <uib-accordion-heading>
+              <span translate>Inventory</span>
+          </uib-accordion-heading>
+          <div class="panel-body" style="overflow-y:scroll;overflow-x:hidden;height:450px">
+            <div ng-repeat="eachItem in dvm.availableItems track by eachItem.id">
+              <div class="row" ng-class="{'active-bid-item': eachItem.isActiveBid === 'true' && dvm.bidOverItem !== eachItem.id}">
+                  <div class="col-lg-4"><img src="images/{{eachItem.imageUrl}}" widteh="50" height="50"><br>
+                        {{eachItem.name}}</div>
+                  <div class="col-lg-4">Quantity {{eachItem.quantity}}</div>
+                  <div class="col-lg-4 pull-right">
+                    <span ng-disabled="item.bidOver" ng-hide="eachItem.bidOver && eachItem.quantity===0">
+                      <img src="images/startAuction.png" width="50" height="30" ng-if="eachItem.isActiveBid === 'true' && dvm.bidOverItem !== eachItem.id">
+                      <img src="images/stopAuction.png" width="50" height="30" ng-if="eachItem.isActiveBid === 'false' || dvm.bidOverItem === eachItem.id">
+                      <button ng-if="dvm.bidOverItem !== eachItem.id" class="btn btn-default" ng-click="dvm.modalOpen(eachItem)"> Auction</button>
+                    </span>
+                  </div>
+              </div>
+              <hr>
+            </div>
+          </div>
+      </uib-accordion-group>
+    </uib-accordion>
+  </div>
+  <div class="col-lg-4 player-stat">
+    <uib-accordion close-others="false">
+      <uib-accordion-group is-open="true">
+          <uib-accordion-heading>
+              <span translate>Current Auction</span>
+          </uib-accordion-heading>
+          <div class="panel-body" ng-if="dvm.currentAuctionId===0">
+                Currently no active Auctions. 
+                Click on any auction to start auction.
+          </div>
+          <div class="panel-body" ng-if="dvm.currentAuctionId>0">
+              <div class="row">
+                  <div class="col-lg-4">
+                      Seller
+                  </div>
+                  <div class="col-lg-8">
+                      {{dvm.sellerName}}
+                  </div>
+              </div>
+              <hr>
+              <div class="row">
+                  <div class="col-lg-4">
+                      <img src="images/{{dvm.selProductSrc}}" widteh="50" height="50"><br>
+                      {{dvm.activeBidItem.name}}
+                  </div>
+                  <div class="col-lg-4">
+                      Quantity
+                      {{dvm.playerQuantity}}
+                  </div>
+              </div>
+              <hr>
+              <div class="row">
+                  <div class="col-lg-4">
+                      Time Left
+                  </div>
+                  <div class="col-lg-4 active-bid-timer" ng-class="{'bid-time-red': dvm.bidTime < 15 }">
+                      {{dvm.bidTime}}
+                  </div>
+              </div>
+              <hr>
+              <div class="row">
+                  <div class="col-lg-4">
+                      {{dvm.bidType}} Bid
+                  </div>
+                  <div class="col-lg-4">
+                      {{dvm.latestBid}}
+                  </div>
+              </div>
+              <hr>
+              <div class="row">
+                  <div class="col-lg-6">
+                      <input type="number" style="color:#000" ng-model="dvm.playerBid" ng-disabled="dvm.bidOver" required />
+                  </div>
+              </div>
+              <hr>
+              <div class="row pull-right">
+                  <div class="col-lg-12">
+                      <button class="btn btn-default" ng-click="dvm.placeBid();" ng-disabled="dvm.bidOver || dvm.disableBidBtn">
+                         <img src="images/coin.png" width="20" height="20"/> Place Bid <img src="images/coin.png" width="20" height="20"/>
+                      </button>
+                  </div>
+              </div>
+          </div>
+      </uib-accordion-group>
+    </uib-accordion>
+  </div>
+  <script type="text/ng-template" id="auctionConfirm.html">
+    <uib-alert ng-repeat="alert in mvmAlerts" type="{{alert.type}}" close="dvm.closeAlert($index)">{{alert.msg}}</uib-alert>
+    <form name="confirmForm">
+    <div class="modal-header">
+      <h3 class="modal-title" translate>Confirm Start Auction for - <img src="images/{{sItem.imageUrl}}" widteh="50" height="50"></h3>
+    </div>
+    <div class="modal-body">
+      <div class="row"><div class="col-sm-3"> Quantity</div><div class="col-sm-5"> <input placeholder="Quantity" type="number" ng-class="{'has-error': confirmForm.modelQuantity.$invalid}" name="modelQuantity" ng-max="{{sItem.quantity}}" class="modalQuantity" ng-model="plQuantity" required></div><div class="col-sm-2">Total Quantity</div><div class="col-sm-2">{{sItem.quantity}}</div></div>
+      <span class="error-text" ng-show="confirmForm.modelQuantity.$error.max">Should be less than {{sItem.quantity}}</span>
+      <span class="error-text" ng-show="confirmForm.modelQuantity.$error.number">Should be a valid number</span>
+      <hr>
+      <div class="row"><div class="col-sm-3"> Minimum Bid</div><div class="col-sm-5"> <input type="number" class="modalMinBid"  ng-model="dvm.plMinBid" required></div><div class="col-sm-2">Seller Bid</div><div class="col-sm-2">{{sItem.sellerBid}}</div></div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-default" ng-click="modalYes()" ng-disabled="confirmForm.$invalid">Strat Auction</button>
+      <button type="button" class="btn btn-default" ng-click="modalCancel()" translate>Cancel</button>
+    </div>
+    </form>
+</script>
+</div>
