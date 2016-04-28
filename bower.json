@@ -1,5 +1,5 @@
 {
-  "name": "bid-auction",
+  "name": "coa-bidding",
   "version": "0.0.0",
   "dependencies": {
     "angular": "^1.3.0",
