@@ -28,9 +28,9 @@ angular
         controller: 'LoginCtrl'
       })
       .when('/dashboard', {
-        templateUrl: 'views/dashboard.html',
+        templateUrl: 'modules/products/products.html',
         controllerAs: 'dvm',
-        controller: 'DashboardCtrl'
+        controller: 'ProductsCtrl'
       })
       .when('/about', {
         templateUrl: 'views/about.html',
