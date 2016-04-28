@@ -4,21 +4,97 @@
  */
 (function() {
     'use strict';
-    angular.module('bidAuctionApp').service('auctionDataService', function($http, $q, kbconstants, Restangular) {
+    angular.module('bidAuctionApp').service('manageInventoryService', function($http, $q, kbconstants, Restangular) {
         Restangular = Restangular;
         var serviceUrl = 'http://localhost:3000';
     	/**
          * @ngdoc
-         * @name getWindingBid
+         * @name getItemsAvailable
          * @methodOf $http.get
          * @description
-         * Function to get Winding Bid Details
+         * Function to get Items available
          */
-        this.getWinningBid = function(auid, prodId, lbid) {
+        this.getItemsAvailable = function() {
             var deferred = $q.defer();
+            var productsUrl = serviceUrl + '/getAllProducts';
             var config = {
                 method: 'get',
-                url: serviceUrl + '/getWiningBid/' + auid + '/' + prodId + '/' + lbid
+                url: productsUrl,
+                headers: {
+                        'Content-Type': 'application/json',
+                        'Access-Control-Allow-Origin': '*'
+                        }
+            };
+            $http(config)
+                .success(function(data, status, headers, config) {
+                    /* jshint unused:vars */
+                    deferred.resolve(data);
+                })
+                .error(function(data) {
+                    deferred.reject(data);
+                });
+            return deferred.promise;
+        };
+        /**
+         * @ngdoc
+         * @name getSelectedItem
+         * @methodOf $http.get
+         * @description
+         * Function to get Item by Id
+         */
+        this.getSelectedItem = function(pid) {
+            var deferred = $q.defer();
+            var productsUrl = serviceUrl + '/getProduct/' + pid;
+            var config = {
+                method: 'get',
+                url: productsUrl
+            };
+            $http(config)
+                .success(function(data, status, headers, config) {
+                    /* jshint unused:vars */
+                    deferred.resolve(data);
+                })
+                .error(function(data) {
+                    deferred.reject(data);
+                });
+            return deferred.promise;
+        };
+        /**
+         * @ngdoc
+         * @name getActivBidItem
+         * @methodOf $http.get
+         * @description
+         * Function to get Item for active bid
+         */
+        this.getActivBidItem = function() {
+            var availableItems = [];
+            var error = '';
+            var activeBitItem = {};
+            this.getItemsAvailable().then(function(res) {
+                availableItems = res;
+            }, function() {
+                error = 'Error found fetching data for items available';
+            });
+
+            angular.forEach(availableItems, function(eacnAvailable) {
+                if (eacnAvailable.isActiveBid) {
+                    activeBitItem = eacnAvailable;
+                }
+            });
+            return activeBitItem;
+        };
+        /**
+         * @ngdoc
+         * @name updateActiveItemBid
+         * @methodOf $http.get
+         * @description
+         * Function to update active bid column of product.
+         */
+        this.updateActiveItemBid = function( isab, prodId, pvpid) {
+            var deferred = $q.defer();
+            var config = {
+                method: 'post',
+                url: serviceUrl + '/updateActiveBid/' + isab + '/' + prodId + '/' + pvpid
             };
             $http(config)
                 .success(function(data, status, headers, config) {
@@ -33,39 +109,16 @@
 
         /**
          * @ngdoc
-         * @name getActiveBidDetails
+         * @name updateBidOver
          * @methodOf $http.get
          * @description
-         * Function to get Active Bid Details
+         * Function to update bid over for the product.
          */
-        this.getActiveBidDetails = function() {
-            var deferred = $q.defer();
-            var config = {
-                method: 'get',
-                url: serviceUrl + '/getAcitiveBid/'
-            };
-            $http(config)
-                .success(function(data, status, headers, config) {
-                    /* jshint unused:vars */
-                    deferred.resolve(data);
-                })
-                .error(function(data) {
-                    deferred.reject(data);
-                });
-            return deferred.promise;
-        };
-        /**
-         * @ngdoc
-         * @name inertBid
-         * @methodOf $http.get
-         * @description
-         * Function to insert player Bid.
-         */
-        this.inertBid = function( lbid, prodId, userId, auid) {
+        this.updateBidOver = function( bo, pid, qty) {
             var deferred = $q.defer();
             var config = {
                 method: 'post',
-                url: serviceUrl + '/insertBid/' + lbid + '/' + prodId + '/' + userId + '/' + auid
+                url: serviceUrl + '/bidover/' + bo + '/' + pid + '/' + qty
             };
             $http(config)
                 .success(function(data, status, headers, config) {
@@ -78,28 +131,5 @@
             return deferred.promise;
         };
 
-        /**
-         * @ngdoc
-         * @name inertAuction
-         * @methodOf $http.get
-         * @description
-         * Function to insert auction.
-         */
-        this.inertAuction = function(sbid) {
-            var deferred = $q.defer();
-            var config = {
-                method: 'post',
-                url: serviceUrl + '/insertAuction/' + sbid + '/false'
-            };
-            $http(config)
-                .success(function(data, status, headers, config) {
-                    /* jshint unused:vars */
-                    deferred.resolve(data);
-                })
-                .error(function(data) {
-                    deferred.reject(data);
-                });
-            return deferred.promise;
-        };
-   });
+    });
  })();
