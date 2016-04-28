@@ -1,0 +1,23 @@
+<h2>Welcome to K-Bid Auction</h2>
+<div class="row">
+	<div class="col-lg-4"></div>
+	<div class="col-lg-4">
+		<form name="kbLoginForm">
+			<div class="row">
+				<div class="col-lg-6">User ID</div>
+				<div class="col-lg-6"><input type="text" required placeholder="User ID" ng-model="lvm.userId" ng-maxlength="20"></div>
+			</div>
+			<hr> 
+			<!-- <div class="row">
+				<div class="col-lg-6">Password</div>
+				<div class="col-lg-6"><input type="password" required placeholder="Password" ng-model="lvm.password" ng-minlengh="6" ng-maxlength="15"></div>
+			</div> -->
+
+			<div class="row">
+				<div class="col-lg-6"></div>
+				<div class="col-lg-6 pull-right"><button type="submit" class="btn btn-default" ng-click="lvm.login()">Enter</button></div>
+			</div>
+		</form>
+	</div>
+	<div class="col-lg-4"></div>
+</div>
