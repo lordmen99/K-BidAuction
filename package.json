@@ -1,5 +1,5 @@
 {
-  "name": "coaBidding",
+  "name": "kBidAuction",
   "version": "0.0.0",
   "main": "restsql.js",
   "dependencies": {
