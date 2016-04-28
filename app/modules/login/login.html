@@ -1,1 +1,22 @@
-
+<div class="row">
+	<div class="col-lg-4"></div>
+	<div class="col-lg-4 login-box">
+		<uib-alert ng-repeat="alert in lvm.alerts" type="{{alert.type}}" close="dvm.closeAlert($index)">{{alert.msg}}</uib-alert>
+		<h2 class="white-title">Login</h2><br>
+		<form name="kbLoginForm">
+			<div class="row">
+				<div class="col-lg-6 white-title">User ID</div>
+				<div class="col-lg-6"><input type="text" required placeholder="User ID" ng-model="lvm.userId" ng-maxlength="20"></div>
+			</div>
+			<hr>
+			<div class="row">
+				<div class="col-lg-6"></div>
+				<div class="col-lg-6 pull-right"><button type="submit" class="btn btn-default pull-right" ng-click="lvm.login()">Enter</button></div>
+			</div>
+		</form>
+	<br>
+	</div>
+	<div class="col-lg-4"></div>
+</div>
+<br>
+<P>
