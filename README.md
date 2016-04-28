@@ -1,4 +1,4 @@
-# BidAuction
+# K-BidAuction
 Auction angularjs web app with nodejs as backend with expressjs rest api
 
 SETUP AND INSTALLATION-INSTRUCTIONS.
