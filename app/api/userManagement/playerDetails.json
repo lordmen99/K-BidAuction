@@ -1,0 +1,8 @@
+{"playerDetails":
+    {
+        "id": "001",
+        "name": "Demo Player01",
+        "coins": "1000",
+        "isActive": "true"
+    }
+}

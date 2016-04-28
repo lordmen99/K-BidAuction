@@ -1,0 +1,9 @@
+{
+    "sellerDetails": 
+    {
+        "id": "001",
+        "name": "Demo Seller01",
+        "coins": "2000",
+        "isActive": "true"
+    }
+}
