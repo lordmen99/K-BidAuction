@@ -1,17 +1,34 @@
 # K-BidAuction
-Auction angularjs web app with nodejs as backend with expressjs rest api
 
-SETUP AND INSTALLATION-INSTRUCTIONS.
+#   Description:
+
+Auction and Bidding web applicaion developped using angularjs for front end with nodejs as backend and expressjs middle ware rest apiused for extracting data from SQlite.
+
+## Main functionalities inclued
+    •	Any Player can login with his credentials. If new player the details will be stored into the db and new user login will be created with 1000 coins and some othe currency configured accordingly.
+        - Already existing user will be logged in to the application
+    •	There are three section in the dash board
+        - Player statiststics
+        - Products/inventory items which can be auctioned with details.
+        - Current auction details.
+    •	Admin/Seller will start the Auction by selecting min bid and quantity of the items/products in Products section.
+    •	Then players will start biddigng with their quatation. which start the bidding timer of 90 seconds.
+    •	Once the bidding time elapses the max bidding player with nearest to the seller quoted/expected amount will win the bidding. Accordingly all the calculations done automatically usin rest ful services.
+
+# Technical details:
+    •	Node JS used as web server with Express js as middle ware
+    •	All the interactions are done using Restful services written using express JS api
+    •	The server will be started using command - node server 
+    •	All the front end components are coded using Angularjs with matirial design as theme
+
+#   SETUP AND INSTALLATION-INSTRUCTIONS.
 
 INSTALL PREREQUISITES
 
-Before initiating KBidAuction app setup, you will need the following:
-
-•	Node.js v0.10.x+
-
-•	npm (which comes bundled with Node) v2.1.0+
-
-•	git
+    Before initiating KBidAuction app setup, you will need the following:
+    •	Node.js v0.10.x+
+    •	npm (which comes bundled with Node) v2.1.0+
+    •	git
 
 You can check if you have Node and npm installed by typing:
 
