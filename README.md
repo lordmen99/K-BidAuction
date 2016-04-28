@@ -66,7 +66,7 @@ INITATE SETUP
     o	Once done bower install, check for any errors. And follow instructions as per command prompt messages.
 
 STARTING SERVER
-    
+        
     o	Open another instance of Command prompt to start the node js web server created with Rest api services for the K-Bid-Auction web application.
        Type node server to start the web server. 
        Server will start and listening to port 3000. Check by viewing the service url http://localhost:3000/getAllProducts in IE or Chrome browser.
